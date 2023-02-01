@@ -1,0 +1,48 @@
+scalar Date
+
+type Athlete {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  email: String
+  picture: String
+  createdAt: Date
+  updatedAt: Date
+  user: User!
+  userId: ID!
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  emailVerified: Date
+  image: String
+  athletes: [Athlete]!
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Query {
+  info: String!
+  getAthlete(id: ID!): Athlete!
+  getAthletesForUser(userId: ID!): [Athlete]!
+}
+
+type Mutation {
+  createAthlete(
+    firstName: String!
+    lastName: String!
+    email: String
+    picture: String
+    userId: ID!
+  ): Athlete!
+  updateAthlete(
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String
+    picture: String
+  ): Athlete!
+  deleteAthlete(id: ID!): Athlete!
+}
