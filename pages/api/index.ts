@@ -10,6 +10,9 @@ import getAthlete from "../../db/athlete/queries/getAthlete";
 import createAthlete from "../../db/athlete/mutations/createAthlete";
 import deleteAthlete from "../../db/athlete/mutations/deleteAthlete";
 import updateAthlete from "../../db/athlete/mutations/updateAthlete";
+import getTeam from "../../db/team/queries/getTeam";
+import getTeamsForUser from "../../db/team/queries/getTeamsForUser";
+import createTeam from "../../db/team/mutations/createTeam";
 
 const prisma = new PrismaClient();
 
@@ -23,11 +26,14 @@ const resolvers = {
     info: () => "This is the API of Performance Mapper 2.0",
     getAthletesForUser,
     getAthlete,
+    getTeam,
+    getTeamsForUser,
   },
   Mutation: {
     createAthlete,
     deleteAthlete,
     updateAthlete,
+    createTeam,
   },
   Athlete: {
     user: (parent, args, context: AppContext) => {
@@ -37,6 +43,32 @@ const resolvers = {
         })
         .user();
       return user;
+    },
+    teams: (parent, args, context: AppContext) => {
+      const teams = context.prisma.athlete
+        .findUnique({
+          where: { id: parent.id },
+        })
+        .teams();
+      return teams;
+    },
+  },
+  Team: {
+    user: (parent, args, context: AppContext) => {
+      const user = context.prisma.team
+        .findUnique({
+          where: { id: parent.id },
+        })
+        .user();
+      return user;
+    },
+    athletes: (parent, args, context: AppContext) => {
+      const athletes = context.prisma.team
+        .findUnique({
+          where: { id: parent.id },
+        })
+        .athletes();
+      return athletes;
     },
   },
 };
@@ -60,3 +92,5 @@ export default startServerAndCreateNextHandler(server, {
     }),
   }),
 });
+
+console.log("Apollo Server is running on http://localhost:3000/api");

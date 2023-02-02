@@ -10,6 +10,9 @@ const getAthletesForUser = async (
     where: {
       userId: args.userId,
     },
+    include: {
+      teams: true,
+    },
   });
   return athletes || [];
 };

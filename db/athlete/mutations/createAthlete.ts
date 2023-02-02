@@ -14,6 +14,9 @@ const createAthlete = async (
       firstName: args.firstName,
       lastName: args.lastName,
       picture: args.picture,
+      teams: {
+        connect: args.teamIds.map((id) => ({ id })),
+      },
     },
   });
   return athlete;
