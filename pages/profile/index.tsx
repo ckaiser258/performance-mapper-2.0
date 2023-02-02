@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Box, Button, List, ListItem, ListItemText } from "@mui/material";
 import { NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
-import { Athlete, Team } from "../../generated/graphql";
+import { Query } from "../../generated/graphql";
 
 const ATHLETES_AND_TEAMS_FOR_CURRENT_USER_QUERY = gql`
   query AthletesAndTeamsForUser($userId: ID!) {
@@ -24,7 +24,7 @@ const ATHLETES_AND_TEAMS_FOR_CURRENT_USER_QUERY = gql`
 
 const ProfilePage: NextPage = () => {
   const { data: session } = useSession({ required: true });
-  const { data, error, loading } = useQuery(
+  const { data, error, loading } = useQuery<Query>(
     ATHLETES_AND_TEAMS_FOR_CURRENT_USER_QUERY,
     {
       variables: {
@@ -34,10 +34,10 @@ const ProfilePage: NextPage = () => {
       skip: !session?.userId,
     }
   );
+  const { getAthletesForUser, getTeamsForUser } = data || {};
 
   if (error) console.error(error);
 
-  const { getAthletesForUser, getTeamsForUser } = data || {};
   return (
     <>
       <h1>Profile Page</h1>
@@ -47,7 +47,7 @@ const ProfilePage: NextPage = () => {
       ) : (
         <Box display="flex">
           <List>
-            {getAthletesForUser?.map((athlete: Athlete) => (
+            {getAthletesForUser?.map((athlete) => (
               <ListItem key={athlete.id}>
                 <ListItemText
                   primary={`${athlete.firstName} ${athlete.lastName}`}
@@ -63,7 +63,7 @@ const ProfilePage: NextPage = () => {
               bgcolor: "background.paper",
             }}
           >
-            {getTeamsForUser?.map((team: Team) => (
+            {getTeamsForUser?.map((team) => (
               <ListItem key={team.id}>
                 <ListItemText primary={team.name} />
               </ListItem>
