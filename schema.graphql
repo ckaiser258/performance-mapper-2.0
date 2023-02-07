@@ -8,6 +8,7 @@ type Athlete {
   picture: String
   createdAt: Date
   updatedAt: Date
+  teams: [Team!]
   user: User!
   userId: ID!
 }
@@ -18,7 +19,18 @@ type User {
   email: String
   emailVerified: Date
   image: String
-  athletes: [Athlete]!
+  athletes: [Athlete!]
+  teams: [Team!]
+  createdAt: Date
+  updatedAt: Date
+}
+
+type Team {
+  id: ID!
+  name: String!
+  user: User!
+  userId: ID!
+  athletes: [Athlete!]!
   createdAt: Date
   updatedAt: Date
 }
@@ -27,6 +39,8 @@ type Query {
   info: String!
   getAthlete(id: ID!): Athlete!
   getAthletesForUser(userId: ID!): [Athlete]!
+  getTeam(id: ID!): Team!
+  getTeamsForUser(userId: ID!): [Team]!
 }
 
 type Mutation {
@@ -35,6 +49,7 @@ type Mutation {
     lastName: String!
     email: String
     picture: String
+    teamIds: [ID!]!
     userId: ID!
   ): Athlete!
   updateAthlete(
@@ -43,6 +58,8 @@ type Mutation {
     lastName: String
     email: String
     picture: String
+    teamIds: [ID!]!
   ): Athlete!
   deleteAthlete(id: ID!): Athlete!
+  createTeam(name: String!, userId: ID!, athleteIds: [ID!]): Team!
 }

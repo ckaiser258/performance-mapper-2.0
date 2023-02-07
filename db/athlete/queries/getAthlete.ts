@@ -5,6 +5,9 @@ const getAthlete = async (parent, args: QueryGetAthleteArgs, context) =>
     where: {
       id: args.id,
     },
+    include: {
+      teams: true,
+    },
   });
 
 export default getAthlete;
