@@ -1,4 +1,4 @@
-## Welcome to Performance Mapper 2.0! 🥳
+## Welcome to Performance Mapper 2.0! 🏃 🥳
 Please note: This is a work in progress. Please do not share or distribute this material.
 
 A completely rebuilt and improved version of the original Performance Mapper (Which allows coaches and athletic trainers to monitor performance and injury trends for their athletes). Performance Mapper 2.0 integrates new skills and technologies, new and improved features, as well as improved code, organization, etc. 
